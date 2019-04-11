@@ -10,6 +10,8 @@ services:
                 environment:
                         - CASSANDRA_CLUSTER_NAME=dev_cluster
                         - CASSANDRA_SEEDS=footballdb1
+                ports:
+                        - 9042:9042
                 ulimits:
                         memlock: -1
                         nproc: 32768
