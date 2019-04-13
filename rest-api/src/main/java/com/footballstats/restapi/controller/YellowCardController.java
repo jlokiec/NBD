@@ -21,7 +21,6 @@ public class YellowCardController {
         this.dao = dao;
     }
 
-
     @GetMapping("/avg_league/{" + LEAGUE + "}")
     public double getAvgForLeague(@PathVariable(LEAGUE) String league) {
         return dao.getAvgYellowCards(league);
