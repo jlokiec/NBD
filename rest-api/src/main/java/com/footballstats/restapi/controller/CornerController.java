@@ -23,19 +23,18 @@ public class CornerController {
 
     @GetMapping("/avg_league/{" + LEAGUE + "}")
     public double getAvgForLeague(@PathVariable(LEAGUE) String league) {
-        return dao.getAvgCorners(league);
+        return dao.getAvgForLeague(league);
     }
 
     @GetMapping("/avg_league_season/{" + LEAGUE + "}/{" + SEASON + "}")
     public double getAvgForLeagueAndSeason(@PathVariable(LEAGUE) String league,
                                            @PathVariable(SEASON) String season) {
-        return dao.getAvgCorners(league, season);
+        return dao.getAvgForLeagueAndSeason(league, season);
     }
 
-    @GetMapping("/avg_league_season_game/{" + LEAGUE + "}/{" + SEASON + "}/{" + TEAM + "}")
-    public double getAvgForLeagueSeasonAndTeam(@PathVariable(LEAGUE) String league,
-                                               @PathVariable(SEASON) String season,
-                                               @PathVariable(TEAM) String team) {
-        return dao.getAvgCorners(league, season, team);
+    @GetMapping("/avg_season_game/{" + SEASON + "}/{" + TEAM + "}")
+    public double getAvgForSeasonAndTeam(@PathVariable(SEASON) String season,
+                                         @PathVariable(TEAM) String team) {
+        return dao.getAvgForSeasonAndTeam(season, team);
     }
 }
