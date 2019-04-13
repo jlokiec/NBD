@@ -14,8 +14,13 @@ public class YellowCardController {
     private static final String SEASON = "season";
     private static final String TEAM = "team";
 
+    private YellowCardDao dao;
+
     @Autowired
-    YellowCardDao dao;
+    YellowCardController(YellowCardDao dao) {
+        this.dao = dao;
+    }
+
 
     @GetMapping("/avg_league/{" + LEAGUE + "}")
     public double getAvgForLeague(@PathVariable(LEAGUE) String league) {
