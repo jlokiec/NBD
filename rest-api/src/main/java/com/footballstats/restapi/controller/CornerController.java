@@ -32,7 +32,7 @@ public class CornerController {
         return dao.getAvgCorners(league, season);
     }
 
-    @GetMapping("/avg_league_season_team/{" + LEAGUE + "}/{" + SEASON + "}/{" + TEAM + "}")
+    @GetMapping("/avg_league_season_game/{" + LEAGUE + "}/{" + SEASON + "}/{" + TEAM + "}")
     public double getAvgForLeagueSeasonAndTeam(@PathVariable(LEAGUE) String league,
                                                @PathVariable(SEASON) String season,
                                                @PathVariable(TEAM) String team) {
