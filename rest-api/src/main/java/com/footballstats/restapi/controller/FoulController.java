@@ -23,19 +23,18 @@ public class FoulController {
 
     @GetMapping("/avg_league/{" + LEAGUE + "}")
     public double getAvgForLeague(@PathVariable(LEAGUE) String league) {
-        return dao.getAvgFouls(league);
+        return dao.getAvgForLeague(league);
     }
 
     @GetMapping("/avg_league_season/{" + LEAGUE + "}/{" + SEASON + "}")
     public double getAvgForLeagueAndSeason(@PathVariable(LEAGUE) String league,
                                            @PathVariable(SEASON) String season) {
-        return dao.getAvgFouls(league, season);
+        return dao.getAvgForLeagueAndSeason(league, season);
     }
 
-    @GetMapping("/avg_league_season_game/{" + LEAGUE + "}/{" + SEASON + "}/{" + TEAM + "}")
-    public double getAvgForLeagueSeasonAndTeam(@PathVariable(LEAGUE) String league,
-                                               @PathVariable(SEASON) String season,
-                                               @PathVariable(TEAM) String team) {
-        return dao.getAvgFouls(league, season, team);
+    @GetMapping("/avg_season_game/{" + SEASON + "}/{" + TEAM + "}")
+    public double getAvgForSeasonAndTeam(@PathVariable(SEASON) String season,
+                                         @PathVariable(TEAM) String team) {
+        return dao.getAvgForSeasonAndTeam(season, team);
     }
 }
