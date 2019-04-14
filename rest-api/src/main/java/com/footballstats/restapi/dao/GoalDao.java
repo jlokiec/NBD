@@ -40,12 +40,48 @@ public class GoalDao {
         return countHome + countAway;
     }
 
+    public long countGamesUnderForLeague(String league, double limit) {
+        String query = "select count(*) from " + TABLE_NAME + " where league='" + league + "' and ft_sum_goals < " + limit + " allow filtering;";
+        ResultSet resultSet = session.execute(query);
+        return resultSet.one().getLong(0);
+    }
+
+    public long countGamesUnderForLeagueAndSeason(String league, String season, double limit) {
+        String query = "select count(*) from " + TABLE_NAME + " where league='" + league + "' and season='" + season + "' and ft_sum_goals < " + limit + " allow filtering;";
+        ResultSet resultSet = session.execute(query);
+        return resultSet.one().getLong(0);
+    }
+
+    public long countGamesUnderForSeasonAndTeam(String season, String team, double limit) {
+        long countHome = countGamesWithGoalsUnder(season, team, limit, true);
+        long countAway = countGamesWithGoalsUnder(season, team, limit, false);
+
+        return countHome + countAway;
+    }
+
     private long countGamesWithGoalsOver(String season, String team, double limit, boolean homeTeam) {
         String query = "";
         if (homeTeam) {
             query = "select count(*) from " + TABLE_NAME + " where season=:season and home_team=:team and ft_sum_goals > " + limit + " allow filtering";
         } else {
             query = "select count(*) from " + TABLE_NAME + " where season=:season and away_team=:team and ft_sum_goals > " + limit + " allow filtering";
+        }
+        PreparedStatement preparedStatement = session.prepare(query);
+
+        BoundStatement boundStatement = preparedStatement.bind()
+                .setString(SEASON, season)
+                .setString(TEAM, team);
+
+        ResultSet resultSet = session.execute(boundStatement);
+        return resultSet.one().getLong(0);
+    }
+
+    private long countGamesWithGoalsUnder(String season, String team, double limit, boolean homeTeam) {
+        String query = "";
+        if (homeTeam) {
+            query = "select count(*) from " + TABLE_NAME + " where season=:season and home_team=:team and ft_sum_goals < " + limit + " allow filtering";
+        } else {
+            query = "select count(*) from " + TABLE_NAME + " where season=:season and away_team=:team and ft_sum_goals < " + limit + " allow filtering";
         }
         PreparedStatement preparedStatement = session.prepare(query);
 

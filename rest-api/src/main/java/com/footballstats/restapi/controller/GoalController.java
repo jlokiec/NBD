@@ -23,22 +23,42 @@ public class GoalController {
     }
 
     @GetMapping("/over_league/{" + LEAGUE + "}/{" + LIMIT + "}")
-    public long getForLeague(@PathVariable(LEAGUE) String league,
-                             @PathVariable(LIMIT) Double limit) {
+    public long getOverForLeague(@PathVariable(LEAGUE) String league,
+                                 @PathVariable(LIMIT) Double limit) {
         return dao.countGamesOverForLeague(league, limit);
     }
 
     @GetMapping("/over_league_season/{" + LEAGUE + "}/{" + SEASON + "}/{" + LIMIT + "}")
-    public long getForLeagueAndSeason(@PathVariable(LEAGUE) String league,
-                                      @PathVariable(SEASON) String season,
-                                      @PathVariable(LIMIT) Double limit) {
+    public long getOverForLeagueAndSeason(@PathVariable(LEAGUE) String league,
+                                          @PathVariable(SEASON) String season,
+                                          @PathVariable(LIMIT) Double limit) {
         return dao.countGamesOverForLeagueAndSeason(league, season, limit);
     }
 
     @GetMapping("/over_season_team/{" + SEASON + "}/{" + TEAM + "}/{" + LIMIT + "}")
-    public long getForSeasonAndTeam(@PathVariable(SEASON) String season,
-                                    @PathVariable(TEAM) String team,
-                                    @PathVariable(LIMIT) Double limit) {
+    public long getOverForSeasonAndTeam(@PathVariable(SEASON) String season,
+                                        @PathVariable(TEAM) String team,
+                                        @PathVariable(LIMIT) Double limit) {
         return dao.countGamesOverForSeasonAndTeam(season, team, limit);
+    }
+
+    @GetMapping("/under_league/{" + LEAGUE + "}/{" + LIMIT + "}")
+    public long getUnderForLeague(@PathVariable(LEAGUE) String league,
+                                  @PathVariable(LIMIT) Double limit) {
+        return dao.countGamesUnderForLeague(league, limit);
+    }
+
+    @GetMapping("/under_league_season/{" + LEAGUE + "}/{" + SEASON + "}/{" + LIMIT + "}")
+    public long getUnderForLeagueAndSeason(@PathVariable(LEAGUE) String league,
+                                           @PathVariable(SEASON) String season,
+                                           @PathVariable(LIMIT) Double limit) {
+        return dao.countGamesUnderForLeagueAndSeason(league, season, limit);
+    }
+
+    @GetMapping("/under_season_team/{" + SEASON + "}/{" + TEAM + "}/{" + LIMIT + "}")
+    public long getUnderForSeasonAndTeam(@PathVariable(SEASON) String season,
+                                         @PathVariable(TEAM) String team,
+                                         @PathVariable(LIMIT) Double limit) {
+        return dao.countGamesUnderForSeasonAndTeam(season, team, limit);
     }
 }
