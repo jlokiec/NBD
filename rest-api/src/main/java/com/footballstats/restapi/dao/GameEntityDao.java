@@ -6,6 +6,7 @@ import com.footballstats.restapi.model.GameEntity;
 import com.footballstats.restapi.model.HomeAwaySum;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.UUID;
 
 @Repository
@@ -13,13 +14,8 @@ public class GameEntityDao {
     private static final String TABLE_NAME = "european_league_results.game_results";
     private static final String UID = "uid";
 
+    @Resource(name = CassandraConnector.SESSION)
     private Session session;
-
-    public GameEntityDao() {
-        CassandraConnector connector = new CassandraConnector();
-        connector.connect();
-        session = connector.getSession();
-    }
 
     public UUID create(GameEntity gameEntity) {
         HomeAwaySum fullTimeGoals = gameEntity.getFullTimeGoals();

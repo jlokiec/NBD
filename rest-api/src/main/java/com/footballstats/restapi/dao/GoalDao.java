@@ -7,19 +7,16 @@ import com.datastax.driver.core.Session;
 import com.footballstats.restapi.cassandra.CassandraConnector;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
+
 @Repository
 public class GoalDao {
     private static final String TABLE_NAME = "european_league_results.game_results";
     private static final String SEASON = "season";
     private static final String TEAM = "team";
 
+    @Resource(name = CassandraConnector.SESSION)
     private Session session;
-
-    public GoalDao() {
-        CassandraConnector connector = new CassandraConnector();
-        connector.connect();
-        session = connector.getSession();
-    }
 
     public long countGamesOverForLeague(String league, double limit) {
         String query = "select count(*) from " + TABLE_NAME + " where league='" + league + "' and ft_sum_goals > " + limit + " allow filtering;";
