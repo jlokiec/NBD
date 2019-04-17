@@ -9,6 +9,8 @@ import com.footballstats.restapi.dao.util.GameResult;
 import com.footballstats.restapi.dao.util.TeamResults;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
+
 @Repository
 public class ResultDao {
     private static final String TABLE_NAME = "european_league_results.game_results";
@@ -16,13 +18,8 @@ public class ResultDao {
     private static final String RESULT = "result";
     private static final String TEAM = "team";
 
+    @Resource(name = CassandraConnector.SESSION)
     private Session session;
-
-    ResultDao() {
-        CassandraConnector connector = new CassandraConnector();
-        connector.connect();
-        session = connector.getSession();
-    }
 
     public TeamResults getTeamResults(String team) {
         long homeWins = countTeamResults(team, GameResult.HOME_WIN, true);

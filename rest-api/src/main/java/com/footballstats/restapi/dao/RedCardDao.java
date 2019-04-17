@@ -5,19 +5,16 @@ import com.footballstats.restapi.cassandra.CassandraConnector;
 import com.footballstats.restapi.dao.util.SumAndCount;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
+
 @Repository
 public class RedCardDao {
     private static final String TABLE_NAME = "european_league_results.game_results";
     private static final String SEASON = "season";
     private static final String TEAM = "team";
 
+    @Resource(name = CassandraConnector.SESSION)
     private Session session;
-
-    public RedCardDao() {
-        CassandraConnector connector = new CassandraConnector();
-        connector.connect();
-        session = connector.getSession();
-    }
 
     public double getAvgForSeasonAndTeam(String season, String team) {
         SumAndCount home = getRedCardsSumAndCount(season, team, true);
