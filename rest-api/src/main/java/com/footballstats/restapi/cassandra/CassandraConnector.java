@@ -3,27 +3,34 @@ package com.footballstats.restapi.cassandra;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
+@EnableConfigurationProperties(ClusterProperties.class)
 public class CassandraConnector {
     public static final String SESSION = "session";
 
-    private static final String NODE_ADDRESS = "localhost";
-    private static final int PORT = 9042;
-
+    private ClusterProperties properties;
     private Session session;
     private boolean initialized = false;
 
-    private void connect() {
-        Cluster.Builder b = Cluster.builder()
-                .withoutJMXReporting()
-                .addContactPoint(NODE_ADDRESS);
+    public CassandraConnector(ClusterProperties properties) {
+        this.properties = properties;
+    }
 
-        b.withPort(PORT);
-        Cluster cluster = b.build();
+    private void connect() {
+        Cluster.Builder clusterBuilder = Cluster.builder()
+                .withoutJMXReporting();
+
+        for (String node : properties.getNodes()) {
+            clusterBuilder.addContactPoint(node);
+        }
+
+        clusterBuilder.withPort(properties.getPort());
+        Cluster cluster = clusterBuilder.build();
         session = cluster.connect();
     }
 
