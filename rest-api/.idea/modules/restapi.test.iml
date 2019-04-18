@@ -12,7 +12,7 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
-    <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
+    <output-test url="file://$MODULE_DIR$/../../out/test/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
@@ -20,6 +20,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="restapi.main" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.springframework.boot:spring-boot-configuration-processor:2.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.datastax.cassandra:cassandra-driver-core:3.7.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:2.1.4.RELEASE" level="project" />
@@ -65,8 +66,8 @@
     <orderEntry type="library" name="Gradle: com.github.jnr:jffi:1.2.16" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-commons:5.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-analysis:5.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-util:5.0.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.github.jnr:jffi:native:1.2.16" level="project" />
+    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-util:5.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-tree:5.0.3" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:json-smart:2.3" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:accessors-smart:1.2" level="project" />
