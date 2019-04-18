@@ -2,17 +2,12 @@ package com.footballstats.restapi.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 @Configuration
 @EnableConfigurationProperties(ClusterProperties.class)
 public class CassandraConnector {
-    public static final String SESSION = "session";
-
     private ClusterProperties properties;
     private Session session;
 
@@ -20,7 +15,7 @@ public class CassandraConnector {
         this.properties = properties;
     }
 
-    private void connect() {
+    public void connect() {
         Cluster.Builder clusterBuilder = Cluster.builder()
                 .withoutJMXReporting();
 
@@ -33,8 +28,6 @@ public class CassandraConnector {
         session = cluster.connect();
     }
 
-    @Bean(name = SESSION)
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public Session getSession() {
         connect();
         return session;
