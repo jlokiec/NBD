@@ -15,7 +15,6 @@ public class CassandraConnector {
 
     private ClusterProperties properties;
     private Session session;
-    private boolean initialized = false;
 
     public CassandraConnector(ClusterProperties properties) {
         this.properties = properties;
@@ -37,10 +36,7 @@ public class CassandraConnector {
     @Bean(name = SESSION)
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public Session getSession() {
-        if (!initialized) {
-            connect();
-            initialized = true;
-        }
+        connect();
         return session;
     }
 }
