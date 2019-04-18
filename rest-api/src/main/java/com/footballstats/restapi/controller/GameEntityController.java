@@ -28,6 +28,12 @@ public class GameEntityController {
         return dao.read(uid);
     }
 
+    @PutMapping(value = "/{" + UID + "}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GameEntity update(@PathVariable(UID) String uid,
+                             @RequestBody GameEntity gameEntity) {
+        return dao.update(uid, gameEntity);
+    }
+
     @DeleteMapping("/{" + UID + "}")
     public void delete(@PathVariable(UID) String uid) {
         dao.delete(uid);

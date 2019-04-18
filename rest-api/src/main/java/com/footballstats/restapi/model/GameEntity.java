@@ -2,9 +2,14 @@ package com.footballstats.restapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class GameEntity {
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     private UUID uid;
     private String date;
     private String league;
@@ -41,6 +46,11 @@ public class GameEntity {
 
     @JsonProperty("red_cards")
     private HomeAwaySum redCards;
+
+    public Date parseDate() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        return formatter.parse(date);
+    }
 
     public String getFullTimeResult() {
         return fullTimeResult;
