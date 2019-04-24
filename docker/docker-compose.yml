@@ -1,0 +1,21 @@
+version: '3'
+services:
+         footballdb1:
+                build:
+                        context: ../
+                        dockerfile: docker/cassandra/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
+                networks:
+                        - football-network
+                environment:
+                        - CASSANDRA_CLUSTER_NAME=dev_cluster
+                        - CASSANDRA_SEEDS=footballdb1
+                ports:
+                        - 9042:9042
+                ulimits:
+                        memlock: -1
+                        nproc: 32768
+                        nofile: 100000
+                container_name: footballdb1
+networks:
+        football-network:  
