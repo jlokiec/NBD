@@ -61,7 +61,7 @@ services:
          football-rest-api:
                 build:
                         context: ../rest-api
-                        dockerfile: ../docker/rest-api/Dockerfile
+                        dockerfile: Dockerfile
                         args:
                             JAR_FILE: build/libs/restapi-0.0.1-SNAPSHOT.jar
                             ENTRYPOINT_FILE: entrypoint.sh
