@@ -58,6 +58,32 @@ services:
                         interval: 15s
                         timeout: 10s
                         retries: 10
+         football-node-2:
+                build:
+                        context: ../
+                        dockerfile: docker/cassandra/node/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 180; fi && /docker-entrypoint.sh cassandra -f'
+                networks:
+                        football-network:
+                            ipv4_address: 172.18.0.13
+                environment:
+                        - CASSANDRA_CLUSTER_NAME=dev_cluster
+                        - CASSANDRA_SEEDS=football-seed
+                expose:
+                        - 9042
+                        - 7199
+                        - 9160
+                ulimits:
+                        memlock: -1
+                        nproc: 32768
+                        nofile: 100000
+                depends_on:
+                        - football-seed
+                healthcheck:
+                        test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+                        interval: 15s
+                        timeout: 10s
+                        retries: 10
          football-rest-api:
                 build:
                         context: ../rest-api
