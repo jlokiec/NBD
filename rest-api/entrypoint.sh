@@ -1,3 +1,3 @@
 #!/bin/bash
-sleep 100
+sleep 180
 java -Djava.security.egd=file:/dev/./urandom -jar /app.jar

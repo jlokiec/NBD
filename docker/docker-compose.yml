@@ -10,8 +10,8 @@ services:
          football-seed:
                 build:
                         context: ../
-                        dockerfile: docker/cassandra/Dockerfile
-                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 20; fi && /docker-entrypoint.sh cassandra -f'
+                        dockerfile: docker/cassandra/seed/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
                 networks:
                         football-network:
                             ipv4_address: 172.18.0.11
@@ -35,8 +35,8 @@ services:
          football-node-1:
                 build:
                         context: ../
-                        dockerfile: docker/cassandra/Dockerfile
-                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
+                        dockerfile: docker/cassandra/node/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 120; fi && /docker-entrypoint.sh cassandra -f'
                 networks:
                         football-network:
                             ipv4_address: 172.18.0.12
