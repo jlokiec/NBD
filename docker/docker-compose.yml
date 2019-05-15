@@ -1,21 +1,77 @@
 version: '3'
+networks:
+         football-network:
+             driver: bridge
+             ipam:
+                 config:
+                     - subnet: 172.18.0.0/24
+
 services:
-         footballdb1:
+         football-seed:
                 build:
                         context: ../
-                        dockerfile: docker/cassandra/Dockerfile
-                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
+                        dockerfile: docker/cassandra/seed/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
                 networks:
-                        - football-network
+                        football-network:
+                            ipv4_address: 172.18.0.11
                 environment:
                         - CASSANDRA_CLUSTER_NAME=dev_cluster
-                        - CASSANDRA_SEEDS=footballdb1
-                ports:
-                        - 9042:9042
+                        - CASSANDRA_SEEDS=football-seed
+                        - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+                expose:
+                        - 9042
+                        - 7199
+                        - 9160
                 ulimits:
                         memlock: -1
                         nproc: 32768
                         nofile: 100000
-                container_name: footballdb1
-networks:
-        football-network:  
+                container_name: football-seed
+                healthcheck:
+                        test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+                        interval: 15s
+                        timeout: 10s
+                        retries: 10
+         football-node-1:
+                build:
+                        context: ../
+                        dockerfile: docker/cassandra/node/Dockerfile
+                command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 120; fi && /docker-entrypoint.sh cassandra -f'
+                networks:
+                        football-network:
+                            ipv4_address: 172.18.0.12
+                environment:
+                        - CASSANDRA_CLUSTER_NAME=dev_cluster
+                        - CASSANDRA_SEEDS=football-seed
+                        - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+                expose:
+                        - 9042
+                        - 7199
+                        - 9160
+                ulimits:
+                        memlock: -1
+                        nproc: 32768
+                        nofile: 100000
+                depends_on:
+                        - football-seed
+                healthcheck:
+                        test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+                        interval: 15s
+                        timeout: 10s
+                        retries: 10
+         football-rest-api:
+                build:
+                        context: ../rest-api
+                        dockerfile: Dockerfile
+                        args:
+                            JAR_FILE: build/libs/restapi-0.0.1-SNAPSHOT.jar
+                            ENTRYPOINT_FILE: entrypoint.sh
+                command: bash -c "sleep 100;"
+                networks:
+                        football-network:
+                            ipv4_address: 172.18.0.21
+                ports:
+                        - "8080:8080"
+                depends_on:
+                        - football-seed
